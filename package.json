@@ -3,11 +3,12 @@
   "version": "2.5.0",
   "description": "Sentinel Studio Executive Workstation & Multi-AI Knowledge OS",
   "main": "main.js",
+  "author": "Patrick Jay F. Tanap, CPA, CICA",
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node server.ts",
     "electron": "electron .",
-    "pack": "electron-builder --dir --win",
+    "pack": "electron-builder --dir --win --x64",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
@@ -17,13 +18,16 @@
     "appId": "com.filinvest.sentinel.studio",
     "productName": "Sentinel Studio",
     "win": {
-      "target": "dir",
-      "arch": [
-        "x64"
-      ]
+      "target": "dir"
     },
+    "files": [
+      "main.js",
+      "preload.js",
+      "dist/**/*",
+      "index.html"
+    ],
     "directories": {
-      "output": "dist"
+      "output": "dist-electron"
     }
   },
   "dependencies": {
@@ -51,7 +55,7 @@
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
     "electron": "^33.0.0",
-    "electron-builder": "^25.0.0",
+    "electron-builder": "^25.1.8",
     "esbuild": "^0.25.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
