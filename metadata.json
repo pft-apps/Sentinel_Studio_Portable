@@ -1,6 +1,6 @@
 {
   "name": "Sentinel Prime - AI Convergence App",
-  "description": "Enterprise Capability Hub (ERI × EPEx) with Persistent Memory Engine, Multi-Tier Enterprise Backup Suite, OPFS Shadow Ledger, and 100% on-device WebGPU execution under RA 10173.",
+  "description": "Enterprise Capability Hub with Persistent Memory Engine, Multi-Tier Enterprise Backup Suite, OPFS Shadow Ledger, and 100% on-device WebGPU execution under RA 10173.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

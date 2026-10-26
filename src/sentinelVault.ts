@@ -1,7 +1,7 @@
 /**
  * =====================================================================
  * SENTINEL STUDIO™ — PERSISTENT MEMORY ENGINE & MULTI-TIER BACKUP SUITE
- * Enterprise Capability Hub (ERI × EPEx)
+ * Enterprise Capability Hub
  * Architect & Developer: Patrick Jay F. Tanap, CPA, CICA
  * Statutory Compliance: RA 10173 (Philippine Data Privacy Act)
  * 100% Client-Side Local Execution • Zero Cloud Egress
@@ -44,7 +44,7 @@ export const DEFAULT_SEED_MEMORIES: Omit<MemoryRecord, 'id' | 'createdAt' | 'upd
   },
   {
     category: 'Domain Context',
-    content: 'Department: Combined Enterprise Risk & Intelligence (ERI) × Enterprise Performance Excellence (EPEx) under a cost-neutral operating model.',
+    content: 'Department: Governance & Business Excellence under a cost-neutral operating model.',
     confidence: 'Verified',
     sourceChatId: 'system_preseed',
     isActive: true,

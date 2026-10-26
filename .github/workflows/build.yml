@@ -1,0 +1,49 @@
+name: Build Sentinel Studio Portable
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-portable:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install exact dependencies
+        run: |
+          npm install --legacy-peer-deps
+          npm install @tailwindcss/vite tailwindcss vite-plugin-singlefile motion electron electron-builder --save-dev --legacy-peer-deps
+
+      - name: Compile singlefile HTML via Vite
+        run: npx vite build
+
+      - name: Package portable executable
+        run: npx electron-builder --dir --win --x64
+
+      - name: Inject run.bat launcher
+        shell: pwsh
+        run: |
+          if (Test-Path "run.bat") {
+            Copy-Item "run.bat" -Destination "dist/win-unpacked/run.bat"
+          }
+
+      - name: Compress into Sentinel_Studio.zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "dist/win-unpacked" -DestinationPath "Sentinel_Studio.zip" -Force
+
+      - name: Upload portable ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sentinel_Studio_Portable
+          path: Sentinel_Studio.zip
+          retention-days: 7
