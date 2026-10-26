@@ -8412,29 +8412,52 @@ function initHistoryAndBackupControls() {
     };
   }
 
+  // Helper to sync pixel-locked toggle button switch state
+  function syncToggleSwitchState(btn: HTMLElement, isChecked: boolean, activeColorClass: string = 'bg-blue-600') {
+    btn.setAttribute('aria-checked', isChecked ? 'true' : 'false');
+    (btn as any).checked = isChecked;
+    if (isChecked) {
+      btn.classList.add(activeColorClass);
+      btn.classList.remove('bg-gray-300', 'dark:bg-intel-700');
+    } else {
+      btn.classList.remove(activeColorClass);
+      btn.classList.add('bg-gray-300', 'dark:bg-intel-700');
+    }
+    const thumb = btn.querySelector('span');
+    if (thumb) {
+      thumb.style.transform = isChecked ? 'translateX(20px)' : 'translateX(0px)';
+    }
+  }
+
   // Cross-Chat Recall Toggle & Dynamic Phrase Triggers Sub-Toggle Listeners
-  const crossChatToggle = document.getElementById('settingsCrossChatRecallToggle') as HTMLInputElement | null;
-  const phraseTriggersToggle = document.getElementById('settingsCrossChatPhraseTriggersToggle') as HTMLInputElement | null;
+  const crossChatToggle = document.getElementById('settingsCrossChatRecallToggle') as HTMLElement | null;
+  const phraseTriggersToggle = document.getElementById('settingsCrossChatPhraseTriggersToggle') as HTMLElement | null;
 
   if (crossChatToggle) {
     const savedState = localStorage.getItem('intel_cross_chat_recall_enabled');
-    if (savedState !== null) {
-      crossChatToggle.checked = savedState !== 'false';
-    }
-    crossChatToggle.onchange = () => {
-      localStorage.setItem('intel_cross_chat_recall_enabled', String(crossChatToggle.checked));
-      showToast(crossChatToggle.checked ? 'Conditional Cross-Chat Recall Enabled' : 'Conditional Cross-Chat Recall Disabled', 'info');
+    const isChecked = savedState !== null ? savedState !== 'false' : true;
+    syncToggleSwitchState(crossChatToggle, isChecked, 'bg-blue-600');
+
+    crossChatToggle.onclick = () => {
+      const currentChecked = crossChatToggle.getAttribute('aria-checked') === 'true';
+      const newChecked = !currentChecked;
+      syncToggleSwitchState(crossChatToggle, newChecked, 'bg-blue-600');
+      localStorage.setItem('intel_cross_chat_recall_enabled', String(newChecked));
+      showToast(newChecked ? 'Conditional Cross-Chat Recall Enabled' : 'Conditional Cross-Chat Recall Disabled', 'info');
     };
   }
 
   if (phraseTriggersToggle) {
     const savedPhraseState = localStorage.getItem('intel_cross_chat_phrase_triggers_enabled');
-    if (savedPhraseState !== null) {
-      phraseTriggersToggle.checked = savedPhraseState !== 'false';
-    }
-    phraseTriggersToggle.onchange = () => {
-      localStorage.setItem('intel_cross_chat_phrase_triggers_enabled', String(phraseTriggersToggle.checked));
-      showToast(phraseTriggersToggle.checked ? 'Dynamic Phrase Triggers Enabled' : 'Dynamic Phrase Triggers Disabled', 'info');
+    const isChecked = savedPhraseState !== null ? savedPhraseState !== 'false' : true;
+    syncToggleSwitchState(phraseTriggersToggle, isChecked, 'bg-blue-600');
+
+    phraseTriggersToggle.onclick = () => {
+      const currentChecked = phraseTriggersToggle.getAttribute('aria-checked') === 'true';
+      const newChecked = !currentChecked;
+      syncToggleSwitchState(phraseTriggersToggle, newChecked, 'bg-blue-600');
+      localStorage.setItem('intel_cross_chat_phrase_triggers_enabled', String(newChecked));
+      showToast(newChecked ? 'Dynamic Phrase Triggers Enabled' : 'Dynamic Phrase Triggers Disabled', 'info');
     };
   }
 
@@ -9174,10 +9197,21 @@ export function renderCapabilitiesList() {
             <span class="text-xs font-bold ${cap.enabled ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-400'}">
               ${cap.enabled ? 'Active' : 'Disabled'}
             </span>
-            <label class="relative inline-flex items-center cursor-pointer" title="Toggle active status for /#${escapeHtml(cap.command)}">
-              <input type="checkbox" class="sr-only peer" ${isChecked} onchange="window.toggleCapabilityActive('${escapeHtml(cap.id)}')" />
-              <div class="w-9 h-5 bg-gray-300 dark:bg-intel-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-600"></div>
-            </label>
+            <button
+              type="button"
+              role="switch"
+              aria-checked="${cap.enabled ? 'true' : 'false'}"
+              title="Toggle active status for /#${escapeHtml(cap.command)}"
+              onclick="window.toggleCapabilityActive('${escapeHtml(cap.id)}')"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${cap.enabled ? 'bg-cyan-600' : 'bg-gray-300 dark:bg-intel-700'}"
+              style="box-sizing: border-box; min-width: 44px; max-width: 44px; height: 24px; min-height: 24px; padding: 2px; overflow: hidden;"
+            >
+              <span
+                aria-hidden="true"
+                class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
+                style="box-sizing: border-box; width: 20px; height: 20px; min-width: 20px; min-height: 20px; transform: translateX(${cap.enabled ? '20px' : '0px'});"
+              ></span>
+            </button>
           </div>
         </div>
 
@@ -10521,11 +10555,14 @@ function isRecallTriggerPhrase(promptText: string): boolean {
 }
 
 async function performCrossChatRecall(promptText: string): Promise<string> {
-  const recallToggle = document.getElementById('settingsCrossChatRecallToggle') as HTMLInputElement | null;
-  const phraseTriggersToggle = document.getElementById('settingsCrossChatPhraseTriggersToggle') as HTMLInputElement | null;
+  const recallToggle = document.getElementById('settingsCrossChatRecallToggle') as HTMLElement | null;
+  const phraseTriggersToggle = document.getElementById('settingsCrossChatPhraseTriggersToggle') as HTMLElement | null;
 
-  const isMainRecallEnabled = localStorage.getItem('intel_cross_chat_recall_enabled') !== 'false' && (recallToggle ? recallToggle.checked : true);
-  const isPhraseTriggersEnabled = localStorage.getItem('intel_cross_chat_phrase_triggers_enabled') !== 'false' && (phraseTriggersToggle ? phraseTriggersToggle.checked : true);
+  const isRecallChecked = recallToggle ? (recallToggle.getAttribute('aria-checked') === 'true' || (recallToggle as any).checked === true) : true;
+  const isPhraseChecked = phraseTriggersToggle ? (phraseTriggersToggle.getAttribute('aria-checked') === 'true' || (phraseTriggersToggle as any).checked === true) : true;
+
+  const isMainRecallEnabled = localStorage.getItem('intel_cross_chat_recall_enabled') !== 'false' && isRecallChecked;
+  const isPhraseTriggersEnabled = localStorage.getItem('intel_cross_chat_phrase_triggers_enabled') !== 'false' && isPhraseChecked;
 
   const otherSessions = (state.sessions || []).filter((s) => s.id !== state.currentSessionId);
   if (otherSessions.length === 0) return '';
@@ -10803,10 +10840,20 @@ function renderMemoryCards() {
           </button>
 
           <!-- Toggle switch for isActive -->
-          <label class="relative inline-flex items-center cursor-pointer" title="${record.isActive ? 'Active (Injected into Prompts) - Click switch to deactivate' : 'Inactive (Disabled) - Click switch to activate'}">
-            <input type="checkbox" class="sr-only peer memory-active-toggle" ${record.isActive ? 'checked' : ''} />
-            <div class="w-8 h-4 bg-gray-300 dark:bg-intel-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3.5 after:transition-all peer-checked:bg-purple-600"></div>
-          </label>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="${record.isActive ? 'true' : 'false'}"
+            title="${record.isActive ? 'Active (Injected into Prompts) - Click switch to deactivate' : 'Inactive (Disabled) - Click switch to activate'}"
+            class="memory-active-toggle relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${record.isActive ? 'bg-purple-600' : 'bg-gray-300 dark:bg-intel-700'}"
+            style="box-sizing: border-box; min-width: 44px; max-width: 44px; height: 24px; min-height: 24px; padding: 2px; overflow: hidden;"
+          >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
+              style="box-sizing: border-box; width: 20px; height: 20px; min-width: 20px; min-height: 20px; transform: translateX(${record.isActive ? '20px' : '0px'});"
+            ></span>
+          </button>
 
           <!-- Delete button: deletes the Rule whether it's currently active or not (User Requested) -->
           <button 
@@ -10854,15 +10901,12 @@ function renderMemoryCards() {
     }
 
     // Hook up active toggle
-    const toggleInput = card.querySelector('.memory-active-toggle') as HTMLInputElement | null;
-    if (toggleInput) {
-      toggleInput.onchange = async (e) => {
+    const toggleBtn = card.querySelector('.memory-active-toggle') as HTMLElement | null;
+    if (toggleBtn) {
+      toggleBtn.onclick = async (e) => {
+        e.preventDefault();
         e.stopPropagation();
-        record.isActive = toggleInput.checked;
-        await updateMemoryRecord(record);
-        debouncedBackgroundVaultSync('memory_update');
-        renderMemoryCards();
-        showToast(record.isActive ? 'Rule activated' : 'Rule deactivated', 'info');
+        await window.toggleMemoryActive(record.id);
       };
     }
 

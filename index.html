@@ -878,11 +878,54 @@
     #gemModal > div,
     #backupSuiteModal > div,
     #exportStyleModal > div,
-    #privacyModal > div,
     #activationOverlay > div {
       background-color: var(--bg-elevated) !important;
       color: var(--text-primary) !important;
       border-color: var(--border-color) !important;
+    }
+
+    /* WCAG Contrast rules for Data Privacy Modal */
+    html:not(.dark) #privacyModal > div {
+      background-color: #ffffff !important;
+      color: #06234D !important;
+      border-color: #e2e8f0 !important;
+    }
+    html.dark #privacyModal > div {
+      background-color: #06234D !important;
+      color: #ffffff !important;
+      border-color: rgba(0, 196, 231, 0.4) !important;
+    }
+    html:not(.dark) #privacyModal .privacy-clause-box {
+      background-color: #f1f5f9 !important;
+      color: #1e293b !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.dark #privacyModal .privacy-clause-box {
+      background-color: #03142c !important;
+      color: #e2e8f0 !important;
+      border-color: #334155 !important;
+    }
+    html:not(.dark) #closePrivacyModalBtn {
+      background-color: #003886 !important;
+      color: #ffffff !important;
+    }
+    html:not(.dark) #closePrivacyModalBtn:hover {
+      background-color: #06234D !important;
+    }
+    html:not(.dark) #closePrivacyModalBtn svg {
+      color: #ffffff !important;
+      stroke: #ffffff !important;
+    }
+    html.dark #closePrivacyModalBtn {
+      background-color: #00C4E7 !important;
+      color: #06234D !important;
+    }
+    html.dark #closePrivacyModalBtn:hover {
+      background-color: #00a8c7 !important;
+    }
+    html.dark #closePrivacyModalBtn svg {
+      color: #06234D !important;
+      stroke: #06234D !important;
     }
 
     .user-msg-bubble {
@@ -1062,41 +1105,41 @@
 <body class="bg-gray-50 text-gray-900 h-screen flex flex-col antialiased overflow-hidden select-none font-sans transition-colors duration-200">
 
   <!-- DATA PRIVACY NOTICE POP-UP (RA 10173) -->
-  <div id="privacyModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-intel-950/90 backdrop-blur-md p-4 transition-all duration-300">
-    <div class="w-full max-w-lg bg-intel-900 border border-intel-border rounded-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden space-y-4">
+  <div id="privacyModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 dark:bg-intel-950/90 backdrop-blur-md p-4 transition-all duration-300">
+    <div class="w-full max-w-lg bg-white dark:bg-[#06234D] text-[#06234D] dark:text-white border border-slate-200 dark:border-[#00C4E7]/40 rounded-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden space-y-4">
       <div class="absolute -top-16 -right-16 w-36 h-36 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="flex items-center justify-between pb-3 border-b border-intel-border">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700/80">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-xl text-cyan-400 shadow-md">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-[#03142c] border border-blue-200 dark:border-[#00C4E7]/30 flex items-center justify-center text-xl text-[#003886] dark:text-[#00C4E7] shadow-sm">
             🔒
           </div>
           <div>
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <h3 class="text-sm font-bold text-[#06234D] dark:text-white flex items-center gap-2">
               Data Privacy Notice
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">RA 10173</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-[#003886] dark:bg-[#03142c] dark:text-[#00C4E7] border border-blue-200 dark:border-[#00C4E7]/40 font-mono font-semibold">RA 10173</span>
             </h3>
-            <p class="text-[11px] text-slate-300">Intel Corporate Intelligence Platform Compliance & Protection</p>
+            <p class="text-[11px] text-slate-500 dark:text-slate-300">Intel Corporate Intelligence Platform Compliance &amp; Protection</p>
           </div>
         </div>
-        <button id="closePrivacyModalXBtn" class="text-slate-300 hover:text-white p-1 rounded-lg transition" title="Close Notice">
+        <button id="closePrivacyModalXBtn" class="text-slate-400 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white p-1 rounded-lg transition" title="Close Notice">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="space-y-3 text-xs leading-relaxed text-slate-200">
-        <p class="p-3.5 rounded-xl bg-intel-950/80 border border-intel-border/80">
+      <div class="space-y-3 text-xs leading-relaxed">
+        <p class="privacy-clause-box p-3.5 rounded-xl border bg-slate-100 text-slate-800 border-slate-300 dark:bg-[#03142c] dark:text-slate-200 dark:border-slate-700">
           Any information you provide is used solely for the operation and administration of the Application and to facilitate related activities. Access to this information is restricted to authorized personnel and is protected in accordance with company policies and the Data Privacy Act of 2012 (RA 10173).
         </p>
-        <p class="p-3.5 rounded-xl bg-intel-950/80 border border-intel-border/80 text-emerald-400 font-medium">
+        <p class="privacy-clause-box p-3.5 rounded-xl border bg-slate-100 text-slate-800 border-slate-300 dark:bg-[#03142c] dark:text-slate-200 dark:border-slate-700 font-medium">
           No additional personal information will be collected from users when using this application. All local token calculations occur strictly in browser VRAM and local storage.
         </p>
       </div>
 
-      <div class="pt-2 flex justify-end border-t border-intel-border">
-        <button id="closePrivacyModalBtn" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-emerald-950/40 flex items-center justify-center gap-1.5 transition">
-          <span style="color: #262629;">Acknowledge & Close</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      <div class="pt-2 flex justify-end border-t border-slate-200 dark:border-slate-700/80">
+        <button id="closePrivacyModalBtn" class="w-full sm:w-auto px-5 py-2.5 bg-[#003886] hover:bg-[#06234D] text-white dark:bg-[#00C4E7] dark:hover:bg-[#00a8c7] dark:text-[#06234D] font-semibold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition cursor-pointer">
+          <span class="text-current font-bold">Acknowledge &amp; Close</span>
+          <svg class="w-4 h-4 flex-shrink-0 opacity-100 stroke-current text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
         </button>
       </div>
     </div>
@@ -2641,10 +2684,21 @@
                   <h4 class="font-bold text-gray-900 dark:text-white text-xs">Conditional Cross-Chat History Recall</h4>
                   <p class="text-[11px] text-gray-500 dark:text-slate-200 font-medium">Scans prior conversations for relevant context and prompts for inline confirmation before injecting.</p>
                 </div>
-                <label class="relative inline-flex items-center cursor-pointer" title="Enable/Disable Conditional Cross-Chat Recall">
-                  <input type="checkbox" id="settingsCrossChatRecallToggle" class="sr-only peer" checked />
-                  <div class="w-9 h-5 bg-gray-300 dark:bg-intel-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
-                </label>
+                <button
+                  type="button"
+                  id="settingsCrossChatRecallToggle"
+                  role="switch"
+                  aria-checked="true"
+                  title="Enable/Disable Conditional Cross-Chat Recall"
+                  class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-blue-600"
+                  style="box-sizing: border-box; min-width: 44px; max-width: 44px; height: 24px; min-height: 24px; padding: 2px; overflow: hidden;"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
+                    style="box-sizing: border-box; width: 20px; height: 20px; min-width: 20px; min-height: 20px; transform: translateX(20px);"
+                  ></span>
+                </button>
               </div>
 
               <!-- SUB-TOGGLE: Trigger on dynamic phrases even if main recall is disabled -->
@@ -2653,10 +2707,21 @@
                   <h5 class="font-bold text-gray-800 dark:text-slate-200 text-[11px]">Enable Dynamic Phrase Triggers Only</h5>
                   <p class="text-[10px] text-gray-500 dark:text-slate-300 font-medium">When main recall is OFF, allow explicit prompt phrases (e.g. "include previous chat history") to trigger recall.</p>
                 </div>
-                <label class="relative inline-flex items-center cursor-pointer" title="Enable Dynamic Phrase Triggers Only">
-                  <input type="checkbox" id="settingsCrossChatPhraseTriggersToggle" class="sr-only peer" checked />
-                  <div class="w-8 h-4 bg-gray-300 dark:bg-intel-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3.5 after:transition-all peer-checked:bg-blue-600"></div>
-                </label>
+                <button
+                  type="button"
+                  id="settingsCrossChatPhraseTriggersToggle"
+                  role="switch"
+                  aria-checked="true"
+                  title="Enable Dynamic Phrase Triggers Only"
+                  class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-blue-600"
+                  style="box-sizing: border-box; min-width: 44px; max-width: 44px; height: 24px; min-height: 24px; padding: 2px; overflow: hidden;"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
+                    style="box-sizing: border-box; width: 20px; height: 20px; min-width: 20px; min-height: 20px; transform: translateX(20px);"
+                  ></span>
+                </button>
               </div>
             </div>
 

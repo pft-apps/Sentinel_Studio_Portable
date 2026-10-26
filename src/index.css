@@ -590,7 +590,6 @@ html:not(.dark) #inputCardContainer,
 html:not(.dark) .bg-sentinel-900,
 html:not(.dark) .bg-sentinel-850,
 html:not(.dark) .bg-sentinel-800,
-html:not(.dark) #privacyModal > div,
 html:not(.dark) #activationOverlay > div,
 html:not(.dark) #gemModal > div,
 html:not(.dark) #backupSuiteModal > div,
@@ -599,6 +598,50 @@ html:not(.dark) #themePickerModal > div {
   background-color: var(--bg-elevated) !important;
   border-color: var(--border-color) !important;
   color: var(--text-primary) !important;
+}
+
+/* WCAG Contrast rules for Data Privacy Modal */
+html:not(.dark) #privacyModal > div {
+  background-color: #ffffff !important;
+  color: #06234D !important;
+  border-color: #e2e8f0 !important;
+}
+html.dark #privacyModal > div {
+  background-color: #06234D !important;
+  color: #ffffff !important;
+  border-color: rgba(0, 196, 231, 0.4) !important;
+}
+html:not(.dark) #privacyModal .privacy-clause-box {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+}
+html.dark #privacyModal .privacy-clause-box {
+  background-color: #03142c !important;
+  color: #e2e8f0 !important;
+  border-color: #334155 !important;
+}
+html:not(.dark) #closePrivacyModalBtn {
+  background-color: #003886 !important;
+  color: #ffffff !important;
+}
+html:not(.dark) #closePrivacyModalBtn:hover {
+  background-color: #06234D !important;
+}
+html:not(.dark) #closePrivacyModalBtn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+html.dark #closePrivacyModalBtn {
+  background-color: #00C4E7 !important;
+  color: #06234D !important;
+}
+html.dark #closePrivacyModalBtn:hover {
+  background-color: #00a8c7 !important;
+}
+html.dark #closePrivacyModalBtn svg {
+  color: #06234D !important;
+  stroke: #06234D !important;
 }
 
 html:not(.dark) main,
@@ -853,8 +896,7 @@ html:not(.dark) .prose-custom blockquote {
 }
 
 #sendBtn svg,
-#initWebllmBtn svg,
-#closePrivacyModalBtn svg {
+#initWebllmBtn svg {
   color: #FFFFFF !important;
   stroke: #FFFFFF !important;
 }
