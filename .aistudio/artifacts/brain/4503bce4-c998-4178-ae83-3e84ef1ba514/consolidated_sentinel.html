@@ -1,0 +1,320 @@
+<!-- 
+  =====================================================================
+  SENTINEL STUDIO™ — CONSOLIDATED OPERATIONAL RUNTIME
+  Enterprise Capability Hub (ERI × EPEx)
+  Architect & Developer: Patrick Jay F. Tanap, CPA, CICA
+  Copyright © 2026 Patrick Jay F. Tanap. All Rights Reserved.
+  =====================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentinel Studio — Enterprise Capability Hub (ERI × EPEx)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.1/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #FFFFFF; --bg-elevated: #F8F9FA; --bg-surface: #FFFFFF;
+      --bg-sidebar: #F1F3F4; --bg-subtle: #E8EAED; --bg-subtle-hover: #DADCE0;
+      --border-color: #DADCE0; --border-focus: #1A73E8; --text-primary: #202124;
+      --text-secondary: #5F6368; --text-muted: #70757A; --accent-primary: #1A73E8;
+      --accent-secondary: #174EA6; --cta-bg: #1A73E8; --cta-text: #FFFFFF;
+      --cta-hover: #174EA6; --input-bg: #F1F3F4; --input-border: #DADCE0;
+      --input-placeholder: #5F6368;
+    }
+    html.dark {
+      --bg-primary: #202124; --bg-elevated: #292A2D; --bg-surface: #2D2E31;
+      --bg-sidebar: #202124; --bg-subtle: #35363A; --bg-subtle-hover: #3C4043;
+      --border-color: #3C4043; --border-focus: #8AB4F8; --text-primary: #E8EAED;
+      --text-secondary: #9AA0A6; --text-muted: #80868B; --accent-primary: #8AB4F8;
+      --accent-secondary: #ADCCFB; --cta-bg: #8AB4F8; --cta-text: #202124;
+      --cta-hover: #ADCCFB; --input-bg: #35363A; --input-border: #5F6368;
+      --input-placeholder: #9AA0A6;
+    }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .stream-cursor::after { content: '▋'; animation: blink 0.85s infinite; color: var(--accent-primary); }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body class="h-screen flex flex-col antialiased overflow-hidden">
+  <!-- Note: Simplified UI for the sake of the functional demo of the engine -->
+  <header class="h-14 border-b border-intel-border flex items-center justify-between px-4 z-20 shrink-0 bg-white dark:bg-[#202124]">
+    <div class="flex items-center gap-3">
+      <h1 class="font-bold text-sm tracking-tight">SENTINEL STUDIO™</h1>
+      <button id="openSettingsModalBtn" class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-intel-850 text-xs font-bold border border-gray-300 dark:border-intel-border transition">⚙️ Settings</button>
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col overflow-hidden relative">
+    <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div id="emptyState" class="h-full flex flex-col items-center justify-center text-center space-y-3 opacity-60">
+        <span class="text-4xl">🛡️</span>
+        <h2 class="text-lg font-bold">Sentinel Intelligence Hub</h2>
+        <p class="text-sm max-w-xs">Ask a question or provide a rule to remember. Your data stays 100% on-device.</p>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-intel-border bg-white dark:bg-[#202124]">
+      <div class="max-w-4xl mx-auto flex gap-3">
+        <textarea id="promptInput" rows="1" class="flex-1 bg-gray-100 dark:bg-intel-850 border border-gray-300 dark:border-intel-border rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-none" placeholder="Type a message or policy rule..."></textarea>
+        <button id="sendBtn" class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg hover:bg-blue-700 transition">🚀</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Settings Modal (Memory Hub) -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-intel-900 border border-intel-border rounded-2xl w-full max-w-3xl h-[80vh] flex flex-col shadow-2xl relative overflow-hidden">
+      <div class="p-5 border-b border-intel-border flex items-center justify-between shrink-0">
+        <h3 class="text-lg font-bold flex items-center gap-2"><span>🧠</span> Persistent Memory Hub</h3>
+        <button id="closeSettingsModalBtn" class="text-gray-500 hover:text-black dark:text-slate-300 dark:hover:text-white">✕</button>
+      </div>
+      <div id="memoryCardsListContainer" class="flex-1 overflow-y-auto p-4 space-y-3">
+        <!-- Memory cards injected here -->
+      </div>
+      <div class="p-4 border-t border-intel-border flex justify-end gap-2 bg-gray-50 dark:bg-intel-950">
+        <button id="addRuleBtn" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold">+ Add New Rule</button>
+        <button id="doneBtn" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    /**
+     * SECTION 1: RELIABLE INDEXEDDB STORAGE ENGINE (sentinel_memory_vault)
+     */
+    const DB_NAME = 'sentinel_memory_vault';
+    const DB_VERSION = 2;
+    const STORE_MEMORIES = 'persistent_memory';
+
+    export async function openMemoryDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_MEMORIES)) {
+            db.createObjectStore(STORE_MEMORIES, { keyPath: 'id' });
+          }
+        };
+        request.onsuccess = (e) => resolve(e.target.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    const DEFAULT_SEED_MEMORIES = [
+      { category: 'Domain Context', content: 'Organization: Filinvest Business Services Corporation – Enterprise Capability Hub (FBSC ECH).', isPinned: true, isActive: true },
+      { category: 'Domain Context', content: 'Department: Combined Enterprise Risk & Intelligence (ERI) × Enterprise Performance Excellence (EPEx) under a cost-neutral operating model.', isPinned: true, isActive: true },
+      { category: 'Policy Rule', content: 'Audit Observations: Findings must strictly follow the 5-part structure: [Condition, Criteria, Cause, Impact, Recommendation].', isPinned: true, isActive: true },
+      { category: 'Policy Rule', content: 'Statutory Compliance: Strict zero external cloud data egress under RA 10173; 100% on-device WebGPU execution.', isPinned: true, isActive: true },
+      { category: 'Correction', content: 'Invoice Processing: Invoice intake metrics represent intake review queues, not completed financial settlement.', isPinned: true, isActive: true },
+      { category: 'Threshold', content: 'Accounts Payable: Flag split Purchase Orders processed within 48 hours totaling below the PHP 500,000 Delegation of Authority (DOA) threshold.', isPinned: false, isActive: true },
+      { category: 'Threshold', content: 'Defect Benchmark: Process cycle time variance exceeding >= 45% must be escalated as a high-priority operational defect.', isPinned: false, isActive: true }
+    ];
+
+    export async function initMemoryVault() {
+      const db = await openMemoryDB();
+      const existing = await getAllMemories();
+      const isPreseeded = localStorage.getItem('sentinel_memory_preseeded_v1');
+
+      if (!isPreseeded && existing.length === 0) {
+        const now = new Date().toISOString();
+        const tx = db.transaction(STORE_MEMORIES, 'readwrite');
+        const store = tx.objectStore(STORE_MEMORIES);
+        for (let i = 0; i < DEFAULT_SEED_MEMORIES.length; i++) {
+          const rec = { 
+            ...DEFAULT_SEED_MEMORIES[i], 
+            id: `mem_seed_${Date.now()}_${i}`, 
+            createdAt: now, updatedAt: now, usageCount: 0, confidence: 'Verified', sourceChatId: 'system_preseed'
+          };
+          store.put(rec);
+        }
+        localStorage.setItem('sentinel_memory_preseeded_v1', 'true');
+        return getAllMemories();
+      }
+      return existing;
+    }
+
+    export async function getAllMemories() {
+      const db = await openMemoryDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_MEMORIES, 'readonly');
+        const req = tx.objectStore(STORE_MEMORIES).getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    export async function saveMemoryRecord(record) {
+      const db = await openMemoryDB();
+      record.updatedAt = new Date().toISOString();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_MEMORIES, 'readwrite');
+        const req = tx.objectStore(STORE_MEMORIES).put(record);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    export async function deleteMemoryRecord(id) {
+      const db = await openMemoryDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_MEMORIES, 'readwrite');
+        const req = tx.objectStore(STORE_MEMORIES).delete(id);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    /**
+     * SECTION 2: SMART CONTEXT GATING (compilePromptWithMemory)
+     */
+    export async function compilePromptWithMemory(baseSystemPrompt, userPrompt, activeAgent = null, approvedPastChatExcerpts = '') {
+      const allMemories = await getAllMemories();
+      const activeMemories = allMemories.filter(m => m.isActive);
+      
+      const pinned = activeMemories.filter(m => m.isPinned).slice(0, 7);
+      const contextual = activeMemories.filter(m => !m.isPinned).slice(0, 10);
+      const finalSelection = [...pinned, ...contextual];
+
+      const MAX_CHARS = 2800;
+      let injectedLines = [];
+      let currentChars = 0;
+      const pastChars = approvedPastChatExcerpts.length;
+      const budget = MAX_CHARS - Math.min(1000, pastChars);
+
+      for (const m of finalSelection) {
+        const line = `- [${m.category}] ${m.content}\n`;
+        if (currentChars + line.length > budget) break;
+        injectedLines.push(line);
+        currentChars += line.length;
+      }
+
+      const preamble = `=== PERSISTENT WORKING KNOWLEDGE ===\n${injectedLines.join('')}\n${approvedPastChatExcerpts ? `\n=== PAST CONTEXT ===\n${approvedPastChatExcerpts}\n` : ''}====================================`;
+      return `${preamble}\n\n${baseSystemPrompt}`;
+    }
+
+    /**
+     * SECTION 3: UI CONTROLLER & EVENT WIRING
+     */
+    const state = {
+      memoryRecords: [],
+      sessions: [],
+      chatHistory: [],
+      isGenerating: false
+    };
+
+    window.toggleMemoryPin = async (id) => {
+      const rec = state.memoryRecords.find(m => m.id === id);
+      if (rec) { rec.isPinned = !rec.isPinned; await saveMemoryRecord(rec); renderMemoryCards(); }
+    };
+
+    window.toggleMemoryActive = async (id) => {
+      const rec = state.memoryRecords.find(m => m.id === id);
+      if (rec) { rec.isActive = !rec.isActive; await saveMemoryRecord(rec); renderMemoryCards(); }
+    };
+
+    window.handleDeleteMemory = async (id) => {
+      if (confirm("Delete this rule from persistent memory?")) {
+        await deleteMemoryRecord(id);
+        state.memoryRecords = state.memoryRecords.filter(m => m.id !== id);
+        renderMemoryCards();
+      }
+    };
+
+    window.saveMemoryContentEdit = async (id, el) => {
+      const rec = state.memoryRecords.find(m => m.id === id);
+      if (rec && el.innerText.trim() !== rec.content) {
+        rec.content = el.innerText.trim();
+        await saveMemoryRecord(rec);
+      }
+    };
+
+    function renderMemoryCards() {
+      const container = document.getElementById('memoryCardsListContainer');
+      if (!container) return;
+      container.innerHTML = state.memoryRecords.map(m => `
+        <div class="p-3 rounded-xl border ${m.isActive ? 'bg-white dark:bg-intel-900 border-purple-300' : 'bg-gray-100 opacity-60'} flex flex-col gap-2">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] font-bold uppercase text-purple-600">${m.category}</span>
+            <div class="flex gap-2">
+              <button onclick="toggleMemoryPin('${m.id}')" class="text-sm">${m.isPinned ? '📌' : '📍'}</button>
+              <input type="checkbox" ${m.isActive ? 'checked' : ''} onchange="toggleMemoryActive('${m.id}')" />
+              <button onclick="handleDeleteMemory('${m.id}')" class="text-gray-400 hover:text-red-500">🗑️</button>
+            </div>
+          </div>
+          <div contenteditable="true" onblur="saveMemoryContentEdit('${m.id}', this)" class="text-xs font-medium">${m.content}</div>
+        </div>
+      `).join('');
+    }
+
+    async function performCrossChatRecall(promptText) {
+      const keywords = /(include previous chat history|reference past chats|recall past conversations|include past chats|previous context)/i;
+      if (state.chatHistory.length !== 0 && !keywords.test(promptText)) return '';
+      // Logic for scanning sessions (simplified)
+      return state.sessions.length > 0 ? "[Context from Session: AP Review Audit]\nUSER: What is the threshold?\nASSISTANT: PHP 500,000." : "";
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('promptInput');
+      const text = input.value.trim();
+      if (!text || state.isGenerating) return;
+      
+      input.value = '';
+      appendMsg('user', text);
+
+      let approvedContext = '';
+      const recall = await performCrossChatRecall(text);
+      if (recall) {
+        const approved = await new Promise(res => {
+          const card = document.createElement('div');
+          card.className = 'p-4 bg-purple-50 rounded-2xl border border-purple-200 my-2';
+          card.innerHTML = `<p class="text-xs font-bold mb-2">Relevant past context found. Include?</p><div class="flex gap-2"><button id="rec_y" class="px-3 py-1 bg-purple-600 text-white rounded-lg text-[10px]">Yes</button><button id="rec_n" class="px-3 py-1 bg-gray-300 rounded-lg text-[10px]">No</button></div>`;
+          document.getElementById('messagesContainer').appendChild(card);
+          document.getElementById('rec_y').onclick = () => { card.remove(); res(true); };
+          document.getElementById('rec_n').onclick = () => { card.remove(); res(false); };
+        });
+        if (approved) approvedContext = recall;
+      }
+
+      const prompt = await compilePromptWithMemory("System: Base instructions.", text, null, approvedContext);
+      state.chatHistory.push({ role: 'user', text });
+      
+      state.isGenerating = true;
+      const assistantId = 'msg_' + Date.now();
+      appendMsg('assistant', '...', assistantId);
+      
+      // Simulate LLM Generation
+      setTimeout(() => {
+        const el = document.getElementById(assistantId);
+        if (el) el.innerText = "Simulation complete. Rules active. Context injected.";
+        state.isGenerating = false;
+        state.chatHistory.push({ role: 'assistant', text: "Simulation complete." });
+      }, 1000);
+    }
+
+    function appendMsg(role, text, id) {
+      const div = document.createElement('div');
+      div.className = `p-3 rounded-2xl max-w-[80%] ${role === 'user' ? 'bg-blue-600 text-white ml-auto' : 'bg-gray-100 dark:bg-intel-850 mr-auto'}`;
+      if (id) div.id = id;
+      div.innerText = text;
+      document.getElementById('messagesContainer').appendChild(div);
+      document.getElementById('emptyState').classList.add('hidden');
+    }
+
+    // App Boot
+    window.addEventListener('DOMContentLoaded', async () => {
+      state.memoryRecords = await initMemoryVault();
+      renderMemoryCards();
+      document.getElementById('openSettingsModalBtn').onclick = () => document.getElementById('settingsModal').classList.remove('hidden');
+      document.getElementById('closeSettingsModalBtn').onclick = () => document.getElementById('settingsModal').classList.add('hidden');
+      document.getElementById('doneBtn').onclick = () => document.getElementById('settingsModal').classList.add('hidden');
+      document.getElementById('sendBtn').onclick = sendMessage;
+      document.getElementById('promptInput').onkeydown = (e) => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1895 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+/* Model Indicator Badge Light-Mode-Only High Contrast Overrides */
+html:not(.dark) #modelIndicatorBadge {
+  background-color: #d1fae5 !important;
+  border-color: #6ee7b7 !important;
+  color: #065f46 !important;
+}
+html:not(.dark) #modelIndicatorBadge .w-1\.5 {
+  background-color: #059669 !important;
+}
+html:not(.dark) #modelIndicatorBadge.text-amber-300,
+html:not(.dark) #modelIndicatorBadge.text-amber-400,
+html:not(.dark) #modelIndicatorBadge:has(.bg-amber-400) {
+  background-color: #fef3c7 !important;
+  border-color: #fcd34d !important;
+  color: #78350f !important;
+}
+html:not(.dark) #modelIndicatorBadge.text-amber-300 .w-1\.5,
+html:not(.dark) #modelIndicatorBadge.text-amber-400 .w-1\.5,
+html:not(.dark) #modelIndicatorBadge:has(.bg-amber-400) .w-1\.5 {
+  background-color: #d97706 !important;
+}
+html:not(.dark) #modelIndicatorBadge.text-cyan-300,
+html:not(.dark) #modelIndicatorBadge:has(.bg-cyan-400) {
+  background-color: #cffafe !important;
+  border-color: #67e8f9 !important;
+  color: #155e75 !important;
+}
+html:not(.dark) #modelIndicatorBadge.text-cyan-300 .w-1\.5,
+html:not(.dark) #modelIndicatorBadge:has(.bg-cyan-400) .w-1\.5 {
+  background-color: #0891b2 !important;
+}
+html:not(.dark) #modelIndicatorBadge.text-red-300,
+html:not(.dark) #modelIndicatorBadge:has(.bg-red-400) {
+  background-color: #fee2e2 !important;
+  border-color: #fca5a5 !important;
+  color: #991b1b !important;
+}
+html:not(.dark) #modelIndicatorBadge.text-red-300 .w-1\.5,
+html:not(.dark) #modelIndicatorBadge:has(.bg-red-400) .w-1\.5 {
+  background-color: #dc2626 !important;
+}
+
+@theme {
+  --color-theme-primary: var(--bg-primary);
+  --color-theme-elevated: var(--bg-elevated);
+  --color-theme-surface: var(--bg-surface);
+  --color-theme-border: var(--border-color);
+  --color-theme-text-primary: var(--text-primary);
+  --color-theme-text-secondary: var(--text-secondary);
+  --color-theme-accent: var(--accent-primary);
+  --color-theme-accent-secondary: var(--accent-secondary);
+  --color-theme-cta: var(--cta-bg);
+  --color-theme-cta-text: var(--cta-text);
+  --color-theme-input-bg: var(--input-bg);
+  --color-theme-input-border: var(--input-border);
+  --color-theme-input-placeholder: var(--input-placeholder);
+}
+
+/* ==========================================================================
+   SENTINEL STUDIO™ — BRAND IDENTITY & HIGH-CONTRAST ACCESSIBILITY CONSTITUTION
+   Architect & Developer: Patrick Jay F. Tanap, CPA, CICA
+   
+   BRAND DISTRIBUTION RULES:
+   - Primary Surfaces & Structure (60%): #06234D
+   - Secondary Components & CTAs (20%): #003886
+   - Accents & Interactivity (20%):
+     • Turquoise: #00C4E7
+     • Purple: #7F59E9
+   - Neutrals & Reading Layouts:
+     • Light Gray: #E7EAEF (Canvas backdrop)
+     • White: #FFFFFF (Cards, inputs, text on navy)
+   - Font Style: "Futura"
+   
+   STRICT ACCESSIBILITY ENFORCEMENT:
+   - Light text on light backgrounds is STRICTLY PROHIBITED.
+   - Dark text on dark backgrounds is STRICTLY PROHIBITED.
+   ========================================================================== */
+
+@layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+    font-family: "Futura", "Futura PT", "Jost", "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+html.dark ::-webkit-scrollbar-track { background: #06234D; }
+html.dark ::-webkit-scrollbar-thumb { background: #003886; border-radius: 4px; border: 1px solid #00C4E7; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: #00C4E7; }
+html:not(.dark) ::-webkit-scrollbar-track { background: #E7EAEF; }
+html:not(.dark) ::-webkit-scrollbar-thumb { background: #003886; border-radius: 4px; }
+html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #06234D; }
+
+/* ==========================================================================
+   THEME PALETTE VARIABLES & ACCESSIBILITY GUARANTEES
+   ========================================================================== */
+:root, html {
+  /* Google Chrome Light Theme */
+  --bg-primary: #FFFFFF;
+  --bg-elevated: #F8F9FA;
+  --bg-surface: #FFFFFF;
+  --bg-sidebar: #F1F3F4;
+  --bg-subtle: #E8EAED;
+  --bg-subtle-hover: #DADCE0;
+  --border-color: #DADCE0;
+  --border-focus: #1A73E8;
+  --text-primary: #202124;
+  --text-secondary: #5F6368;
+  --text-muted: #70757A;
+  --accent-primary: #1A73E8;
+  --accent-secondary: #174EA6;
+  --cta-bg: #1A73E8;
+  --cta-text: #FFFFFF;
+  --cta-hover: #174EA6;
+  --input-bg: #F1F3F4;
+  --input-border: #DADCE0;
+  --input-placeholder: #5F6368;
+
+  /* Compatibility aliases */
+  --theme-text-primary: var(--text-primary);
+  --theme-text-secondary: var(--text-secondary);
+  --theme-accent: var(--accent-primary);
+  --theme-border: var(--border-color);
+  --theme-input-bg: var(--input-bg);
+  --theme-input-border: var(--input-border);
+  --theme-input-placeholder: var(--input-placeholder);
+}
+
+html.dark, html[data-theme="dark"] {
+  /* Google Chrome Dark Theme */
+  --bg-primary: #202124;
+  --bg-elevated: #292A2D;
+  --bg-surface: #2D2E31;
+  --bg-sidebar: #202124;
+  --bg-subtle: #35363A;
+  --bg-subtle-hover: #3C4043;
+  --border-color: #3C4043;
+  --border-focus: #8AB4F8;
+  --text-primary: #E8EAED;
+  --text-secondary: #9AA0A6;
+  --text-muted: #80868B;
+  --accent-primary: #8AB4F8;
+  --accent-secondary: #ADCCFB;
+  --cta-bg: #8AB4F8;
+  --cta-text: #202124;
+  --cta-hover: #ADCCFB;
+  --input-bg: #35363A;
+  --input-border: #5F6368;
+  --input-placeholder: #9AA0A6;
+}
+
+/* 1. Sentinel Deep Navy */
+html[data-theme="sentinel-navy"] {
+  --bg-primary: #06234D;
+  --bg-elevated: #082b5c;
+  --bg-surface: #03142c;
+  --border-color: rgba(0, 196, 231, 0.35);
+  --border-focus: #00C4E7;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E7EAEF;
+  --accent-primary: #00C4E7;
+  --accent-secondary: #7F59E9;
+  --cta-bg: #003886;
+  --cta-text: #FFFFFF;
+  --cta-hover: #002860;
+  --input-bg: #03142c;
+  --input-border: rgba(0, 196, 231, 0.45);
+  --input-placeholder: #E7EAEF;
+}
+
+/* 2. Obsidian Crimson */
+html[data-theme="obsidian-crimson"] {
+  --bg-primary: #0B0C10;
+  --bg-elevated: #161822;
+  --bg-surface: #0e1017;
+  --border-color: rgba(244, 63, 94, 0.35);
+  --border-focus: #F43F5E;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F1F5F9;
+  --accent-primary: #F43F5E;
+  --accent-secondary: #FB7185;
+  --cta-bg: #BE123C;
+  --cta-text: #FFFFFF;
+  --cta-hover: #9F1239;
+  --input-bg: #08090C;
+  --input-border: rgba(244, 63, 94, 0.45);
+  --input-placeholder: #CBD5E1;
+}
+
+/* 3. Midnight Cyber */
+html[data-theme="midnight-cyber"] {
+  --bg-primary: #04090C;
+  --bg-elevated: #09171C;
+  --bg-surface: #03080A;
+  --border-color: rgba(0, 245, 212, 0.35);
+  --border-focus: #00F5D4;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E0FBFC;
+  --accent-primary: #00F5D4;
+  --accent-secondary: #A78BFA;
+  --cta-bg: #028090;
+  --cta-text: #FFFFFF;
+  --cta-hover: #005F73;
+  --input-bg: #020608;
+  --input-border: rgba(0, 245, 212, 0.45);
+  --input-placeholder: #BEE3DB;
+}
+
+/* 4. Nordic Slate */
+html[data-theme="nordic-slate"] {
+  --bg-primary: #0F172A;
+  --bg-elevated: #1E293B;
+  --bg-surface: #090E1A;
+  --border-color: rgba(56, 189, 248, 0.3);
+  --border-focus: #38BDF8;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
+  --accent-primary: #38BDF8;
+  --accent-secondary: #818CF8;
+  --cta-bg: #2563EB;
+  --cta-text: #FFFFFF;
+  --cta-hover: #1D4ED8;
+  --input-bg: #090E1A;
+  --input-border: rgba(56, 189, 248, 0.45);
+  --input-placeholder: #CBD5E1;
+}
+
+/* 5. Emerald ESG & Governance */
+html[data-theme="emerald-esg"] {
+  --bg-primary: #031812;
+  --bg-elevated: #07261D;
+  --bg-surface: #020E0A;
+  --border-color: rgba(16, 185, 129, 0.35);
+  --border-focus: #10B981;
+  --text-primary: #FFFFFF;
+  --text-secondary: #ECFDF5;
+  --accent-primary: #10B981;
+  --accent-secondary: #F59E0B;
+  --cta-bg: #047857;
+  --cta-text: #FFFFFF;
+  --cta-hover: #065F46;
+  --input-bg: #020E0A;
+  --input-border: rgba(16, 185, 129, 0.45);
+  --input-placeholder: #D1FAE5;
+}
+
+/* 6. Royal Amethyst */
+html[data-theme="royal-amethyst"] {
+  --bg-primary: #120B24;
+  --bg-elevated: #1D1438;
+  --bg-surface: #0B0617;
+  --border-color: rgba(168, 85, 247, 0.35);
+  --border-focus: #A855F7;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F3E8FF;
+  --accent-primary: #C084FC;
+  --accent-secondary: #38BDF8;
+  --cta-bg: #6D28D9;
+  --cta-text: #FFFFFF;
+  --cta-hover: #5B21B6;
+  --input-bg: #0B0617;
+  --input-border: rgba(168, 85, 247, 0.45);
+  --input-placeholder: #E9D5FF;
+}
+
+/* 7. Executive Light */
+html[data-theme="executive-light"] {
+  --bg-primary: #E7EAEF;
+  --bg-elevated: #FFFFFF;
+  --bg-surface: #F8FAFC;
+  --border-color: #CBD5E1;
+  --border-focus: #003886;
+  --text-primary: #06234D;
+  --text-secondary: #1E293B;
+  --accent-primary: #003886;
+  --accent-secondary: #00829B;
+  --cta-bg: #003886;
+  --cta-text: #FFFFFF;
+  --cta-hover: #002860;
+  --input-bg: #FFFFFF;
+  --input-border: #003886;
+  --input-placeholder: #003886;
+}
+
+/* 8. Solarized Linen */
+html[data-theme="solarized-linen"] {
+  --bg-primary: #F4EFE6;
+  --bg-elevated: #FFFCF7;
+  --bg-surface: #FFFFFF;
+  --border-color: #E2D9C8;
+  --border-focus: #B45309;
+  --text-primary: #1C1917;
+  --text-secondary: #44403C;
+  --accent-primary: #B45309;
+  --accent-secondary: #701A75;
+  --cta-bg: #78350F;
+  --cta-text: #FFFFFF;
+  --cta-hover: #582607;
+  --input-bg: #FFFFFF;
+  --input-border: #B45309;
+  --input-placeholder: #78716C;
+}
+
+/* Layout bindings */
+html.dark,
+html.dark body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark header,
+html.dark #sidebar,
+html.dark #workDeskPanel,
+html.dark main,
+html.dark .bg-sentinel-950 {
+  background-color: var(--bg-primary) !important;
+}
+
+html.dark .bg-sentinel-900,
+html.dark .bg-sentinel-850,
+html.dark .bg-sentinel-800,
+html.dark .bg-sentinel-700,
+html.dark #themePickerModal > div,
+html.dark #gemModal > div,
+html.dark #backupSuiteModal > div,
+html.dark #exportStyleModal > div,
+html.dark #moveSessionModal > div,
+html.dark #folderModal > div,
+html.dark #deleteFolderModal > div,
+html.dark #renameChatModal > div,
+html.dark #editMemoryRuleModal > div {
+  background-color: var(--bg-elevated) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark #moveSessionModal,
+html.dark #moveFolderOptionsList,
+html.dark #folderModal,
+html.dark #deleteFolderModal,
+html.dark #renameChatModal {
+  color: var(--text-primary) !important;
+}
+
+html.dark #moveSessionModal > div {
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark #moveSessionModal .border-b,
+html.dark #moveSessionModal .border-t {
+  border-color: var(--border-color) !important;
+}
+
+html.dark #cancelMoveSessionModalBtn {
+  background-color: var(--bg-subtle) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark #cancelMoveSessionModalBtn:hover {
+  background-color: var(--bg-subtle-hover) !important;
+}
+
+html.dark #moveFolderOptionsList button:not(.move-session-active) {
+  background-color: var(--bg-subtle) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark #moveFolderOptionsList button:not(.move-session-active):hover {
+  background-color: var(--bg-subtle-hover) !important;
+}
+
+html.dark #moveFolderOptionsList button.move-session-active {
+  background-color: rgba(26, 115, 232, 0.25) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--accent-primary) !important;
+}
+
+html.dark #moveSessionTitleDisp {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .border-sentinel-border {
+  border-color: var(--border-color) !important;
+}
+
+/* Dark mode typography */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark strong,
+html.dark b,
+html.dark .font-bold,
+html.dark .font-semibold,
+html.dark .text-white {
+  color: var(--text-primary) !important;
+}
+
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark label,
+html.dark .text-slate-100,
+html.dark .text-slate-200,
+html.dark .text-slate-300,
+html.dark .text-slate-400,
+html.dark .text-slate-500,
+html.dark .text-slate-600 {
+  color: var(--text-secondary);
+}
+
+html.dark .text-cyan-400,
+html.dark .text-cyan-300,
+html.dark .text-cyan-200 {
+  color: var(--accent-primary) !important;
+}
+
+html.dark .text-purple-400,
+html.dark .text-purple-300 {
+  color: var(--accent-secondary) !important;
+}
+
+/* Inputs in Dark Mode */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--input-border) !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: var(--input-placeholder) !important;
+  opacity: 0.75 !important;
+}
+
+/* ==========================================================================
+   DARK MODE HIGH-CONTRAST ENHANCEMENTS (SENTINEL STYLE)
+   ========================================================================== */
+html.dark header svg {
+  color: #00C4E7 !important;
+}
+
+html.dark #headerGemName,
+html.dark #licenseBadgeText,
+html.dark .theme-mode-btn span,
+html.dark #toggleWorkDeskBtn span {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+html.dark .history-section-title,
+html.dark .persona-section-title {
+  color: #00C4E7 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em;
+}
+
+html.dark .session-item-inactive .session-title-text,
+html.dark .gem-item-inactive .gem-name-text {
+  color: #F8FAFC !important;
+  font-weight: 600 !important;
+}
+
+html.dark .session-item-inactive:hover .session-title-text,
+html.dark .gem-item-inactive:hover .gem-name-text {
+  color: #00C4E7 !important;
+}
+
+html.dark #activeGemPill,
+html.dark #themeSelectorGroup {
+  border-color: rgba(0, 196, 231, 0.45) !important;
+  background-color: #06234D !important; /* Deep Navy for contrast */
+}
+
+html.dark .session-item-inactive,
+html.dark .gem-item-inactive {
+  background-color: rgba(6, 35, 77, 0.3) !important;
+  border-color: rgba(0, 196, 231, 0.2) !important;
+}
+
+html.dark .session-item-inactive:hover,
+html.dark .gem-item-inactive:hover {
+  background-color: rgba(6, 35, 77, 0.6) !important;
+  border-color: #00C4E7 !important;
+}
+
+html.dark .session-item-inactive button,
+html.dark .gem-item-inactive button {
+  color: #94A3B8 !important;
+}
+
+html.dark .session-item-inactive button:hover,
+html.dark .gem-item-inactive button:hover {
+  color: #00C4E7 !important;
+}
+
+/* Agent Badges & Tags Contrast in Dark Mode */
+html.dark .bg-blue-950,
+html.dark .bg-emerald-950,
+html.dark .bg-amber-950,
+html.dark .bg-purple-950 {
+  background-color: rgba(6, 35, 77, 0.8) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  border-width: 1.5px !important;
+}
+
+html.dark .bg-blue-950 { border-color: #38BDF8 !important; }
+html.dark .bg-emerald-950 { border-color: #34D399 !important; }
+html.dark .bg-amber-950 { border-color: #FBBF24 !important; }
+html.dark .bg-purple-950 { border-color: #A78BFA !important; }
+
+html.dark .bg-blue-950.text-blue-300,
+html.dark .bg-emerald-950.text-emerald-300,
+html.dark .bg-amber-950.text-amber-300,
+html.dark .bg-purple-950.text-purple-300 {
+  color: #FFFFFF !important;
+}
+
+/* Agent Studio Library Tags */
+html.dark #agentCardsGrid .bg-theme-subtle {
+  background-color: #06234D !important;
+  border-color: rgba(0, 196, 231, 0.3) !important;
+  color: #F8FAFC !important;
+  font-weight: 600 !important;
+}
+
+html.dark #agentCardsGrid .text-theme-text-secondary {
+  color: #CBD5E1 !important;
+}
+
+html.dark #agentCardsGrid h4 {
+  color: #FFFFFF !important;
+}
+
+/* Active Agent Prompt Chip in Dark Mode */
+html.dark #activeAgentPromptChip {
+  background-color: #06234D !important;
+  border-color: #00C4E7 !important;
+}
+
+html.dark #activeAgentChipName {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+html.dark #activeAgentChipBadge {
+  background-color: rgba(0, 196, 231, 0.15) !important;
+  color: #00C4E7 !important;
+  border-color: rgba(0, 196, 231, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+/* Agent Studio Category Pills in Dark Mode */
+html.dark #agentCategoryPillsContainer .bg-theme-subtle {
+  background-color: #06234D !important;
+  border-color: rgba(0, 196, 231, 0.3) !important;
+  color: #CBD5E1 !important;
+  font-weight: 600 !important;
+}
+
+html.dark #agentCategoryPillsContainer .bg-theme-subtle:hover {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  border-color: #00C4E7 !important;
+}
+
+/* Light Theme Layout */
+html:not(.dark),
+html:not(.dark) body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+html:not(.dark) header,
+html:not(.dark) #sidebar,
+html:not(.dark) #inputCardContainer,
+html:not(.dark) .bg-sentinel-900,
+html:not(.dark) .bg-sentinel-850,
+html:not(.dark) .bg-sentinel-800,
+html:not(.dark) #privacyModal > div,
+html:not(.dark) #activationOverlay > div,
+html:not(.dark) #gemModal > div,
+html:not(.dark) #backupSuiteModal > div,
+html:not(.dark) #exportStyleModal > div,
+html:not(.dark) #themePickerModal > div {
+  background-color: var(--bg-elevated) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+html:not(.dark) main,
+html:not(.dark) #workDeskPanel,
+html:not(.dark) .bg-sentinel-950 {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+html:not(.dark) .border-sentinel-border {
+  border-color: var(--border-color) !important;
+}
+
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4,
+html:not(.dark) h5,
+html:not(.dark) h6,
+html:not(.dark) strong,
+html:not(.dark) b,
+html:not(.dark) .font-bold:not(.text-white):not(.msg-action-btn),
+html:not(.dark) .font-semibold:not(.text-white):not(.msg-action-btn) {
+  color: var(--text-primary) !important;
+}
+
+/* Chat Assistant Reply Action Buttons: Guaranteed Pure White High Contrast in Light & Dark Mode */
+.msg-action-btn,
+.msg-action-btn *,
+button.msg-action-btn,
+button.msg-action-btn * {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* Session History Add Folder Button & Create Persona Button in Dark Mode */
+html.dark #addFolderBtn,
+html.dark #addFolderBtn *,
+html.dark #openCreateGemBtn,
+html.dark #openCreateGemBtn * {
+  color: #00C4E7 !important;
+  background-color: #06234D !important;
+  border-color: #00C4E7 !important;
+  font-weight: 800 !important;
+}
+
+html.dark #addFolderBtn:hover,
+html.dark #addFolderBtn:hover *,
+html.dark #openCreateGemBtn:hover,
+html.dark #openCreateGemBtn:hover * {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+html:not(.dark) p,
+html:not(.dark) label,
+html:not(.dark) .text-slate-400,
+html:not(.dark) .text-slate-500,
+html:not(.dark) .text-slate-600 {
+  color: var(--text-secondary) !important;
+}
+
+/* Explicit high-contrast guarantees for buttons, active session items, and headers */
+.active-session-item,
+.active-session-item *,
+.active-session-item span {
+  background-color: #1A73E8 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+#themeSelectorGroup [aria-checked="true"],
+#themeSelectorGroup [aria-checked="true"] *,
+#themeSelectorGroup [aria-checked="true"] span {
+  background-color: #1A73E8 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+html:not(.dark) .session-item-inactive .session-title-text {
+  color: #202124 !important;
+  font-weight: 600 !important;
+}
+
+html:not(.dark) .session-item-inactive:hover .session-title-text {
+  color: #1A73E8 !important;
+}
+
+html:not(.dark) .folder-header .folder-name-text {
+  color: #202124 !important;
+  font-weight: 700 !important;
+}
+
+/* Explicit high-contrast guarantees for Active Persona Item */
+.active-gem-item,
+.active-gem-item *,
+.active-gem-item span {
+  background-color: #1A73E8 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* Inactive Persona Items in Light Mode */
+html:not(.dark) .gem-item-inactive .gem-name-text {
+  color: #202124 !important;
+  font-weight: 600 !important;
+}
+
+html:not(.dark) .gem-item-inactive:hover .gem-name-text {
+  color: #1A73E8 !important;
+}
+
+html:not(.dark) .text-cyan-400,
+html:not(.dark) .text-cyan-300,
+html:not(.dark) .text-cyan-200 {
+  color: var(--accent-primary) !important;
+  font-weight: 700;
+}
+
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--input-border) !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: var(--input-placeholder) !important;
+  opacity: 0.65 !important;
+}
+
+/* Chat Assistant formatting in Light Mode */
+html:not(.dark) .prose-custom {
+  color: #06234D !important;
+}
+html:not(.dark) .prose-custom p,
+html:not(.dark) .prose-custom li,
+html:not(.dark) .prose-custom td,
+html:not(.dark) .prose-custom h1,
+html:not(.dark) .prose-custom h2,
+html:not(.dark) .prose-custom h3 {
+  color: #06234D !important;
+}
+html:not(.dark) .prose-custom th {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+}
+html:not(.dark) .prose-custom td {
+  border-color: #cbd5e1 !important;
+}
+html:not(.dark) .prose-custom tr:nth-child(even) {
+  background-color: #E7EAEF !important;
+}
+html:not(.dark) .prose-custom pre {
+  background-color: #06234D !important;
+  border: 1.5px solid #003886 !important;
+  color: #FFFFFF !important;
+}
+html:not(.dark) .prose-custom pre code {
+  color: #FFFFFF !important;
+}
+html:not(.dark) .prose-custom code:not(pre code) {
+  background-color: rgba(0, 56, 134, 0.12) !important;
+  color: #003886 !important;
+  font-weight: 700 !important;
+}
+html:not(.dark) .prose-custom blockquote {
+  background-color: rgba(127, 89, 233, 0.12) !important;
+  color: #06234D !important;
+  border-left: 4px solid #7F59E9 !important;
+}
+
+/* --------------------------------------------------------------------------
+   SPECIAL COMPONENT OVERRIDES: LIGHT SURFACES IN DARK MODE
+   (Word Page, Excel Grid, Slide Presentation Canvas)
+   These surfaces are ALWAYS light/white backgrounds, so their text
+   MUST ALWAYS BE DEEP NAVY (#06234D) AND ROYAL NAVY (#003886),
+   regardless of whether the application is in Dark Mode or Light Mode!
+   -------------------------------------------------------------------------- */
+#wordDocPageCard,
+#wordDocPageCard * {
+  color: #06234D !important;
+}
+#wordDocPageCard h1,
+#wordDocPageCard h2,
+#wordDocPageCard h3,
+#wordDocPageCard strong,
+#wordDocPageCard b {
+  color: #06234D !important;
+}
+#wordDocPageCard th {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+}
+
+#excelGridTable,
+#excelGridTable td {
+  background-color: #FFFFFF;
+  color: #06234D !important;
+}
+#excelGridTable tr:nth-child(even) td {
+  background-color: #f8fafc !important;
+}
+#excelGridTable th {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+}
+
+#activeSlideCard h2,
+#activeSlideCard li,
+#activeSlideCard p,
+#activeSlideCard span {
+  color: #06234D !important;
+}
+
+/* --------------------------------------------------------------------------
+   SPECIAL COMPONENT OVERRIDES: DARK BUTTONS & BUBBLES IN LIGHT MODE
+   User messages and Primary CTAs have dark backgrounds (#003886 / #7F59E9),
+   so their text MUST ALWAYS BE PURE WHITE (#FFFFFF)!
+   -------------------------------------------------------------------------- */
+.user-msg-bubble,
+.user-msg-bubble * {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  border-color: #06234D !important;
+}
+
+.btn-cta-royal,
+#sendBtn,
+#initWebllmBtn,
+#requestApprovalBtn,
+#saveGemBtn,
+#saveExportStyleBtn,
+#triggerExportBackupBtn {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-cta-royal *,
+#sendBtn *,
+#initWebllmBtn *,
+#requestApprovalBtn *,
+#saveGemBtn *,
+#saveExportStyleBtn *,
+#triggerExportBackupBtn * {
+  background-color: transparent !important;
+  color: #FFFFFF !important;
+}
+
+#sendBtn svg,
+#initWebllmBtn svg,
+#closePrivacyModalBtn svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* Mode Switcher Active Tab */
+.workdesk-mode-active {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* Blinking Cursor for stream */
+.stream-cursor::after {
+  content: '▋';
+  display: inline-block;
+  vertical-align: baseline;
+  color: #00C4E7;
+  animation: blink 0.85s infinite;
+  margin-left: 3px;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+details.think-tray summary {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+details.think-tray summary::-webkit-details-marker { display: none; }
+
+/* Google Gemini-Style Rounded Flat Corporate Chatbox */
+#inputCardContainer {
+  border-radius: 28px !important;
+}
+
+#sendBtn {
+  border-radius: 9999px !important;
+  width: 38px !important;
+  height: 38px !important;
+}
+
+#attachBtn {
+  border-radius: 9999px !important;
+  width: 36px !important;
+  height: 36px !important;
+}
+
+/* ==========================================================================
+   GEMINI CANVAS STYLE & WORD PHYSICAL PAGE PREVIEW
+   ========================================================================== */
+
+/* Unified Canvas Editor (Gemini Style) */
+#workDeskEditor {
+  font-family: "Futura", "Futura PT", "Jost", "Montserrat", sans-serif !important;
+  color: var(--text-primary) !important;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  background-attachment: local;
+  background-image: linear-gradient(var(--bg-primary) 30px, transparent 30px);
+}
+
+/* Word Preview "Physical Page" Look */
+#workDeskWordContainer {
+  background-color: #f1f5f9; /* Light gray neutral workspace */
+  padding-bottom: 80px;
+}
+
+html.dark #workDeskWordContainer {
+  background-color: #0b0e14; /* Even deeper for page contrast */
+}
+
+/* Word Page Class for Multi-page support */
+.word-page {
+  background-color: #ffffff !important;
+  width: 100%;
+  max-width: 800px;
+  min-height: 1050px; /* Letter/A4 aspect ratio approx */
+  padding: 72px 60px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  border-radius: 2px;
+  margin-bottom: 30px; /* Space between pages */
+  position: relative;
+  overflow: hidden;
+  color: #1e293b !important;
+  flex-shrink: 0;
+}
+
+.word-page-header {
+  border-bottom: 1.5pt solid var(--accent-primary);
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+
+/* Document content rules within the page */
+.word-page p {
+  margin-bottom: 12pt;
+  line-height: 1.6;
+  text-align: justify;
+  font-size: 11pt;
+}
+
+.word-page h1 { font-size: 24pt; font-weight: 800; color: #06234D; margin-bottom: 15pt; }
+.word-page h2 { font-size: 18pt; font-weight: 700; color: #06234D; border-bottom: 1px solid #e2e8f0; margin-top: 20pt; margin-bottom: 10pt; }
+.word-page h3 { font-size: 14pt; font-weight: 700; color: #003886; margin-top: 15pt; margin-bottom: 6pt; }
+
+/* Floating AI Bubble Animations */
+#deskInlineAiBubble.active {
+  display: flex !important;
+  opacity: 1 !important;
+  scale: 1 !important;
+}
+
+/* Highlighted Text Background */
+#workDeskEditor::selection {
+  background-color: rgba(0, 196, 231, 0.35);
+  color: inherit;
+}
+
+/* Gemini Canvas Clean Sidebar Aesthetic */
+#workDeskPanel {
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+}
+
+.desk-ai-ribbon::-webkit-scrollbar { height: 0px; }
+
+/* Pulse effect for the AI icon in bubble */
+@keyframes spark-pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0px #00C4E7); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 5px #00C4E7); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0px #00C4E7); }
+}
+#deskInlineAiBubble span {
+  animation: spark-pulse 2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   AGENT STUDIO DARK MODE ACCESSIBILITY & DYNAMIC CONTRAST
+   High-contrast overrides for Category Pills, Format Badges, and Catalog Tags
+   ========================================================================== */
+
+html.dark #deskAgentStudioView .rounded-full.border {
+  background-color: #06234D !important; /* Base Deep Navy */
+  border-color: #00C4E7 !important; /* Turquoise Edge */
+  color: #FFFFFF !important; /* Pure White Text for maximum dynamic contrast */
+  font-weight: 700 !important;
+}
+
+/* Specific highlight for the Catalog Count Badge */
+html.dark #agentCatalogCountBadge {
+  background-color: #00C4E7 !important;
+  color: #06234D !important; /* Inverted contrast for the main counter */
+  font-weight: 800 !important;
+  border-color: #FFFFFF !important;
+}
+
+/* High-contrast icons in Agent Studio */
+html.dark #deskAgentStudioView span[title],
+html.dark #deskAgentStudioView .w-10.h-10,
+html.dark #agentStudioLibraryView h3 span:first-of-type {
+  color: #00C4E7 !important;
+  background-color: rgba(0, 196, 231, 0.15) !important;
+  border-color: #00C4E7 !important;
+}
+
+/* Ensure secondary text in Agent Studio cards is also readable */
+html.dark #agentCardsGrid p,
+html.dark #agentCardsGrid .text-theme-text-secondary {
+  color: #E2E8F0 !important;
+}
+
+html.dark #agentCardsGrid h4 {
+  color: #FFFFFF !important;
+}
+
+/* Sidebar Create Persona Button in Dark Mode — High Contrast */
+html.dark div:nth-of-type(4) > aside#sidebar:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > button#openCreateGemBtn:nth-of-type(1) {
+  background-color: #06234D !important;
+  border-color: #00C4E7 !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+html.dark div:nth-of-type(4) > aside#sidebar:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > button#openCreateGemBtn:nth-of-type(1):hover {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   ENTERPRISE SETTINGS WINDOW (#settingsModal) — DARK THEME HIGH CONTRAST
+   Crystal-clear fonts, high-contrast text, icons, inputs, and badges for
+   Dark Theme mode ONLY. Preserves Light Theme mode completely untouched.
+   ========================================================================== */
+
+html.dark #settingsModal,
+html.dark #snapshotRestoreModal {
+  color-scheme: dark;
+}
+
+/* Modal Frame & Backdrop Card */
+html.dark #settingsModal > div {
+  background-color: #0d1527 !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Left Rail Navigation Sidebar */
+html.dark #settingsModal .w-full.md\:w-64 {
+  background-color: #080d1a !important;
+  border-color: #1e293b !important;
+}
+
+/* Navigation Rail Headers & Branding */
+html.dark #settingsModal h3,
+html.dark #settingsModal h4 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+}
+
+html.dark #settingsModal p,
+html.dark #settingsModal label,
+html.dark #settingsModal span:not(.no-dark-override) {
+  color: #cbd5e1;
+}
+
+/* Modal Navigation Tabs — Light Mode High Contrast */
+html:not(.dark) .settings-nav-tab {
+  color: #374151 !important;
+  font-weight: 600 !important;
+}
+
+html:not(.dark) .settings-nav-tab * {
+  color: inherit !important;
+}
+
+html:not(.dark) .settings-nav-tab:hover {
+  background-color: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+html:not(.dark) .settings-nav-tab.bg-\[\#003886\],
+html:not(.dark) .settings-nav-tab[aria-selected="true"] {
+  background-color: #003886 !important;
+  color: #ffffff !important;
+  border: 1px solid #001c44 !important;
+  box-shadow: 0 2px 6px rgba(0, 28, 68, 0.25) !important;
+  font-weight: 700 !important;
+}
+
+html:not(.dark) .settings-nav-tab.bg-\[\#003886\] *,
+html:not(.dark) .settings-nav-tab[aria-selected="true"] * {
+  color: #ffffff !important;
+}
+
+/* Modal Navigation Tabs — Dark Mode High Contrast */
+html.dark .settings-nav-tab {
+  color: #cbd5e1 !important;
+  font-weight: 600 !important;
+}
+
+html.dark .settings-nav-tab * {
+  color: inherit !important;
+}
+
+html.dark .settings-nav-tab:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+html.dark .settings-nav-tab.bg-\[\#003886\],
+html.dark .settings-nav-tab[aria-selected="true"] {
+  background-color: #003886 !important;
+  color: #ffffff !important;
+  border: 1px solid #00c4e7 !important;
+  box-shadow: 0 0 12px rgba(0, 196, 231, 0.25) !important;
+  font-weight: 700 !important;
+}
+
+html.dark .settings-nav-tab.bg-\[\#003886\] *,
+html.dark .settings-nav-tab[aria-selected="true"] * {
+  color: #ffffff !important;
+}
+
+/* Top Section Header Banners across Tabs */
+html.dark #settingsModal .border-b.bg-gray-50 {
+  background-color: #0b1222 !important;
+  border-color: #1e293b !important;
+}
+
+/* Subtitles under tab headers */
+html.dark #settingsTabContentMemory p,
+html.dark #settingsTabContentBackup p,
+html.dark #settingsTabContentAppearance p,
+html.dark #settingsTabContentData p {
+  color: #cbd5e1 !important;
+  font-weight: 500 !important;
+}
+
+/* Categories & Schema List High Contrast for Dark Mode */
+html.dark #categoriesListContainer .category-item-row {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark #categoriesListContainer .category-item-name {
+  color: #f8fafc !important;
+  font-weight: 700 !important;
+}
+
+html.dark #categoriesListContainer input.cat-edit-input {
+  background-color: #0b1222 !important;
+  color: #ffffff !important;
+  border-color: #38bdf8 !important;
+}
+
+/* Form Controls, Input Boxes, Select Dropdowns, and Textareas */
+html.dark #settingsModal input[type="text"],
+html.dark #settingsModal input[type="search"],
+html.dark #settingsModal select,
+html.dark #settingsModal textarea {
+  background-color: #080d1a !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+  font-weight: 500 !important;
+}
+
+html.dark #settingsModal select option {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+html.dark #settingsModal input::placeholder,
+html.dark #settingsModal textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+html.dark #settingsModal input:focus,
+html.dark #settingsModal select:focus,
+html.dark #settingsModal textarea:focus {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Sub-card Container Boxes in Dark Mode */
+html.dark #settingsModal .bg-gray-50,
+html.dark #settingsModal .bg-gray-100 {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+/* Badges & Status Pills in Dark Mode */
+html.dark #memoryVaultActiveCountBadge {
+  background-color: #3b0764 !important;
+  color: #f3e8ff !important;
+  border-color: #a855f7 !important;
+}
+
+html.dark #opfsLiveBadge,
+html.dark #settingsLicBadge {
+  background-color: rgba(6, 78, 59, 0.7) !important;
+  color: #6ee7b7 !important;
+  border-color: #10b981 !important;
+}
+
+html.dark #hotDirStatusBadge {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+/* Memory Health & Budget Bar */
+html.dark #settingsModal .bg-purple-50 {
+  background-color: rgba(88, 28, 135, 0.25) !important;
+  border-color: #581c87 !important;
+}
+
+html.dark #settingsModal .text-purple-800,
+html.dark #settingsModal .text-purple-900 {
+  color: #e9d5ff !important;
+}
+
+html.dark #settingsModal .text-purple-700 {
+  color: #c084fc !important;
+}
+
+html.dark #optimizePruneMemoryBtn {
+  background-color: #3b0764 !important;
+  color: #f3e8ff !important;
+  border-color: #7e22ce !important;
+}
+
+html.dark #optimizePruneMemoryBtn:hover {
+  background-color: #581c87 !important;
+}
+
+/* Collapsible Add Rule Panel */
+html.dark #addNewRulePanel {
+  background-color: #140b24 !important;
+  border-color: #581c87 !important;
+}
+
+/* Memory Cards List in Dark Mode */
+html.dark #memoryCardsListContainer > div {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark #memoryCardsListContainer .memory-editable-content {
+  background-color: #080d1a !important;
+  color: #ffffff !important;
+  border-color: #1e293b !important;
+}
+
+html.dark #memoryCardsListContainer .memory-editable-content:hover,
+html.dark #memoryCardsListContainer .memory-editable-content:focus {
+  border-color: #a855f7 !important;
+}
+
+/* Tier Section Labels & Accents */
+html.dark #settingsModal .text-cyan-600,
+html.dark #settingsModal .text-cyan-400,
+html.dark #settingsModal .text-cyan-300,
+html.dark #settingsModal .text-cyan-200 {
+  color: #38bdf8 !important;
+  font-weight: 700 !important;
+}
+
+html.dark #settingsModal .text-amber-600,
+html.dark #settingsModal .text-amber-400 {
+  color: #fbbf24 !important;
+  font-weight: 700 !important;
+}
+
+html.dark #settingsModal .text-blue-600 {
+  color: #38bdf8 !important;
+}
+
+/* Inline Code Tags in Dark Mode */
+html.dark #settingsModal code {
+  background-color: #1e293b !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Universal Restore Dropzone in Dark Mode */
+html.dark #universalRestoreDropzone {
+  background-color: #080d1a !important;
+  border-color: rgba(56, 189, 248, 0.45) !important;
+}
+
+html.dark #universalRestoreDropzone:hover {
+  border-color: #38bdf8 !important;
+  background-color: rgba(56, 189, 248, 0.08) !important;
+}
+
+html.dark #universalRestoreDropzone span {
+  color: #f1f5f9 !important;
+}
+
+html.dark #universalRestoreDropzone span.text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* 3-Way Theme Buttons in Dark Mode */
+html.dark #settingsThemeBtnLight,
+html.dark #settingsThemeBtnDark,
+html.dark #settingsThemeBtnSystem {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark #settingsThemeBtnLight:hover,
+html.dark #settingsThemeBtnDark:hover,
+html.dark #settingsThemeBtnSystem:hover {
+  border-color: #38bdf8 !important;
+}
+
+html.dark #settingsThemeBtnLight span,
+html.dark #settingsThemeBtnDark span,
+html.dark #settingsThemeBtnSystem span {
+  color: #f1f5f9 !important;
+}
+
+html.dark #settingsThemeBtnLight .text-gray-500,
+html.dark #settingsThemeBtnDark .text-slate-200,
+html.dark #settingsThemeBtnSystem .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Overrides for inner color style attributes on Light / Dark theme selector headers */
+html.dark #settingsThemeBtnLight > div,
+html.dark #settingsThemeBtnDark > div,
+html.dark #settingsThemeBtnSystem > div {
+  color: #ffffff !important;
+}
+
+/* Hardware License Info Card */
+html.dark #settingsModal .font-mono.space-y-1 {
+  background-color: #080d1a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark #settingsFingerprintDisp {
+  color: #38bdf8 !important;
+}
+
+html.dark #settingsLicenseeDisp {
+  color: #ffffff !important;
+}
+
+/* User Profile Inputs in Tab 3 */
+html.dark #settingsUserNameInput,
+html.dark #settingsUserTitleInput {
+  background-color: #080d1a !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+  font-weight: 600 !important;
+}
+
+/* Modal Bottom Footer Action Bars */
+html.dark #settingsModal .border-t.bg-gray-50 {
+  background-color: #0b1222 !important;
+  border-color: #1e293b !important;
+}
+
+/* Done Buttons across all tabs */
+html.dark #doneSettingsModalBtn,
+html.dark #closeBackupModalBottomBtn,
+html.dark #doneSettingsModalAppearanceBtn {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+html.dark #doneSettingsModalBtn:hover,
+html.dark #closeBackupModalBottomBtn:hover,
+html.dark #doneSettingsModalAppearanceBtn:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Category Filter Chips in Memory Hub */
+html.dark #memoryCategoryChipsContainer button:not(.bg-purple-700) {
+  background-color: #0f172a !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+html.dark #memoryCategoryChipsContainer button:not(.bg-purple-700):hover {
+  color: #e9d5ff !important;
+  border-color: #a855f7 !important;
+}
+
+/* Persistent Theme-Independent Text Colors */
+#settingsThemeBtnDark,
+#settingsThemeBtnDark * {
+  color: #ffffff !important;
+}
+
+#settingsUploadLicBtn,
+#settingsUploadLicBtn * {
+  color: #000000 !important;
+}
+
+/* Memory Hub Export & Import Buttons: Unified high-contrast color dynamic */
+html.dark #exportMemoryLedgerBtn,
+html.dark #exportMemoryLedgerBtn *,
+html.dark #importMemoryLedgerBtn,
+html.dark #importMemoryLedgerBtn * {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+  font-weight: 700 !important;
+}
+
+html.dark #exportMemoryLedgerBtn:hover,
+html.dark #importMemoryLedgerBtn:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #94a3b8 !important;
+}
+
+html:not(.dark) #exportMemoryLedgerBtn,
+html:not(.dark) #exportMemoryLedgerBtn *,
+html:not(.dark) #importMemoryLedgerBtn,
+html:not(.dark) #importMemoryLedgerBtn * {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #d1d5db !important;
+  font-weight: 700 !important;
+}
+
+html:not(.dark) #exportMemoryLedgerBtn:hover,
+html:not(.dark) #importMemoryLedgerBtn:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+}
+
+/* ==========================================================================
+   BOTTOM-LEFT USER PROFILE BAR — DYNAMIC THEME CONSTITUTION
+   ========================================================================== */
+#bottomLeftProfileBar {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Light Theme Styling for Bottom-Left Profile Bar */
+html:not(.dark) #bottomLeftProfileBar {
+  background-color: #ffffff !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+html:not(.dark) #bottomLeftProfileBar #profileBarUserName {
+  color: #0f172a !important;
+}
+
+html:not(.dark) #bottomLeftProfileBar #profileBarUserTitle {
+  color: #475569 !important;
+}
+
+html:not(.dark) #bottomLeftProfileBar #profileBarComplianceBadge {
+  background-color: #ecfdf5 !important;
+  color: #047857 !important;
+  border-color: #a7f3d0 !important;
+}
+
+html:not(.dark) #bottomLeftProfileBar #profileBarLicensee,
+html:not(.dark) #bottomLeftProfileBar #profileBarFingerprint {
+  color: #64748b !important;
+}
+
+html:not(.dark) #bottomLeftProfileBar #openSettingsModalBtn {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+}
+
+html:not(.dark) #bottomLeftProfileBar #openSettingsModalBtn:hover {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Dark Theme Styling for Bottom-Left Profile Bar */
+html.dark #bottomLeftProfileBar {
+  background-color: var(--bg-elevated, #161822) !important;
+  border-top-color: var(--border-color, #334155) !important;
+}
+
+html.dark #bottomLeftProfileBar #profileBarUserName {
+  color: #ffffff !important;
+}
+
+html.dark #bottomLeftProfileBar #profileBarUserTitle {
+  color: #94a3b8 !important;
+}
+
+html.dark #bottomLeftProfileBar #profileBarComplianceBadge {
+  background-color: rgba(6, 78, 59, 0.45) !important;
+  color: #34d399 !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+}
+
+html.dark #bottomLeftProfileBar #profileBarLicensee,
+html.dark #bottomLeftProfileBar #profileBarFingerprint {
+  color: #94a3b8 !important;
+}
+
+html.dark #bottomLeftProfileBar #openSettingsModalBtn {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark #bottomLeftProfileBar #openSettingsModalBtn:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-color: #00c4e7 !important;
+}
+
+/* Preset Theme Enhancements for Bottom-Left Bar */
+html[data-theme="sentinel-navy"] #bottomLeftProfileBar {
+  background-color: #082b5c !important;
+  border-top-color: rgba(0, 196, 231, 0.35) !important;
+}
+
+html[data-theme="obsidian-crimson"] #bottomLeftProfileBar {
+  background-color: #161822 !important;
+  border-top-color: rgba(244, 63, 94, 0.35) !important;
+}
+
+html[data-theme="midnight-cyber"] #bottomLeftProfileBar {
+  background-color: #09171C !important;
+  border-top-color: rgba(0, 245, 212, 0.35) !important;
+}
+
+html[data-theme="nordic-slate"] #bottomLeftProfileBar {
+  background-color: #1E293B !important;
+  border-top-color: rgba(56, 189, 248, 0.3) !important;
+}
+
+html[data-theme="emerald-esg"] #bottomLeftProfileBar {
+  background-color: #07261D !important;
+  border-top-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+html[data-theme="royal-amethyst"] #bottomLeftProfileBar {
+  background-color: #1D1438 !important;
+  border-top-color: rgba(168, 85, 247, 0.35) !important;
+}
+
+/* ==========================================================================
+   TAB 4 CAPABILITIES — DARK MODE CONTRAST & ACCESSIBILITY ENHANCEMENTS
+   ========================================================================== */
+html.dark #tabContentCapabilities {
+  background-color: var(--bg-primary) !important;
+  color: #F8FAFC !important;
+}
+
+html.dark #tabContentCapabilities h3 {
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+html.dark #tabContentCapabilities p {
+  color: #E2E8F0 !important;
+}
+
+html.dark #capabilitiesStatusCountBadge {
+  background-color: rgba(0, 196, 231, 0.15) !important;
+  color: #00C4E7 !important;
+  border-color: rgba(0, 196, 231, 0.4) !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_card_"] {
+  background-color: var(--bg-elevated) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Command Pill Badge — Light Mode Default */
+.cap-command-badge {
+  background-color: #FEF3C7 !important;
+  color: #78350F !important;
+  border: 1px solid #F59E0B !important;
+  font-weight: 800 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Command Pill Badge — Dark Mode & Custom Enterprise Themes */
+html.dark .cap-command-badge,
+html[data-theme="sentinel-navy"] .cap-command-badge,
+html[data-theme="obsidian-crimson"] .cap-command-badge,
+html[data-theme="midnight-cyber"] .cap-command-badge,
+html[data-theme="nordic-slate"] .cap-command-badge,
+html[data-theme="emerald-esg"] .cap-command-badge,
+html[data-theme="royal-amethyst"] .cap-command-badge {
+  background-color: rgba(245, 158, 11, 0.22) !important;
+  color: #FDE047 !important;
+  border: 1px solid #F59E0B !important;
+  font-weight: 800 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Description Box */
+html.dark .cap-desc-box {
+  background-color: rgba(0, 0, 0, 0.35) !important;
+  color: #F8FAFC !important;
+  border-color: var(--border-color) !important;
+}
+
+/* ID & Code — Light Mode */
+#capabilitiesCardList code {
+  color: #028090 !important;
+  font-weight: 700 !important;
+}
+
+/* ID & Code — Dark Mode & Custom Enterprise Themes */
+html.dark #capabilitiesCardList code,
+html[data-theme="sentinel-navy"] #capabilitiesCardList code,
+html[data-theme="obsidian-crimson"] #capabilitiesCardList code,
+html[data-theme="midnight-cyber"] #capabilitiesCardList code,
+html[data-theme="nordic-slate"] #capabilitiesCardList code,
+html[data-theme="emerald-esg"] #capabilitiesCardList code,
+html[data-theme="royal-amethyst"] #capabilitiesCardList code {
+  color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+/* Aliases — Light Mode */
+#capabilitiesCardList .cap-aliases-text {
+  color: #B45309 !important;
+  font-weight: 700 !important;
+}
+
+/* Aliases — Dark Mode & Custom Enterprise Themes */
+html.dark #capabilitiesCardList .cap-aliases-text,
+html[data-theme="sentinel-navy"] #capabilitiesCardList .cap-aliases-text,
+html[data-theme="obsidian-crimson"] #capabilitiesCardList .cap-aliases-text,
+html[data-theme="midnight-cyber"] #capabilitiesCardList .cap-aliases-text,
+html[data-theme="nordic-slate"] #capabilitiesCardList .cap-aliases-text,
+html[data-theme="emerald-esg"] #capabilitiesCardList .cap-aliases-text,
+html[data-theme="royal-amethyst"] #capabilitiesCardList .cap-aliases-text {
+  color: #FBBF24 !important;
+  font-weight: 700 !important;
+}
+
+/* Buttons in Card Actions */
+html.dark #capabilitiesCardList button:not(.bg-rose-50):not(.bg-rose-950) {
+  background-color: var(--bg-surface) !important;
+  color: #FFFFFF !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark #capabilitiesCardList button:not(.bg-rose-50):not(.bg-rose-950):hover {
+  background-color: var(--bg-subtle-hover) !important;
+  border-color: var(--border-focus) !important;
+}
+
+/* Playbook Instructions Box */
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom {
+  background-color: rgba(2, 6, 23, 0.75) !important;
+  color: #F1F5F9 !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom h1,
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom h2,
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom h3,
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom h4 {
+  color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom strong,
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom b {
+  color: #FFFFFF !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom code {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+  color: #FCD34D !important;
+  border: 1px solid rgba(252, 211, 77, 0.3) !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom table {
+  border-color: var(--border-color) !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom th {
+  background-color: #06234D !important;
+  color: #FFFFFF !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark #capabilitiesCardList [id^="capability_instructions_box_"] .prose-custom td {
+  border-color: var(--border-color) !important;
+  color: #F1F5F9 !important;
+}
+
+html.dark #capabilityEditorContainer {
+  background-color: var(--bg-elevated) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark #capabilityEditorContainer label {
+  color: #FFFFFF !important;
+}
+
+html.dark #capabilityEditorContainer input,
+html.dark #capabilityEditorContainer textarea {
+  background-color: var(--input-bg) !important;
+  color: #FFFFFF !important;
+  border-color: var(--input-border) !important;
+}
+
+html.dark #capabilityEditorContainer .text-gray-500,
+html.dark #capabilityEditorContainer .text-slate-400 {
+  color: #94A3B8 !important;
+}
+
+/* ==========================================================================
+   CREATE CAPABILITY BUTTON & WEBGPU MEMORY GUARD BANNER CONTRAST ENHANCEMENTS
+   ========================================================================== */
+
+/* Button contrast */
+#btnOpenCreateCapabilityModal {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(0, 196, 231, 0.6) !important;
+}
+
+#btnOpenCreateCapabilityModal * {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+#btnOpenCreateCapabilityModal:hover {
+  background-color: #002860 !important;
+  border-color: #00C4E7 !important;
+  box-shadow: 0 0 10px rgba(0, 196, 231, 0.35) !important;
+}
+
+/* Light Mode styling for WebGPU Memory Guard Banner */
+#webgpuMemoryGuardBanner {
+  background-color: #E0F2FE !important;
+  border-bottom: 1px solid #7DD3FC !important;
+  color: #032B45 !important;
+}
+
+#webgpuMemoryGuardBanner .banner-text {
+  color: #032B45 !important;
+}
+
+#webgpuMemoryGuardBanner .banner-strong {
+  color: #003886 !important;
+  font-weight: 800 !important;
+}
+
+#webgpuMemoryGuardBanner .kv-cache-badge {
+  background-color: #003886 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #00C4E7 !important;
+}
+
+/* Dark Mode & Custom Themes styling for WebGPU Memory Guard Banner */
+html.dark #webgpuMemoryGuardBanner,
+html[data-theme="sentinel-navy"] #webgpuMemoryGuardBanner,
+html[data-theme="obsidian-crimson"] #webgpuMemoryGuardBanner,
+html[data-theme="midnight-cyber"] #webgpuMemoryGuardBanner,
+html[data-theme="nordic-slate"] #webgpuMemoryGuardBanner,
+html[data-theme="emerald-esg"] #webgpuMemoryGuardBanner,
+html[data-theme="royal-amethyst"] #webgpuMemoryGuardBanner {
+  background-color: #082B5C !important;
+  border-bottom: 1px solid rgba(0, 196, 231, 0.45) !important;
+  color: #E0FBFC !important;
+}
+
+html.dark #webgpuMemoryGuardBanner .banner-text,
+html[data-theme="sentinel-navy"] #webgpuMemoryGuardBanner .banner-text,
+html[data-theme="obsidian-crimson"] #webgpuMemoryGuardBanner .banner-text,
+html[data-theme="midnight-cyber"] #webgpuMemoryGuardBanner .banner-text,
+html[data-theme="nordic-slate"] #webgpuMemoryGuardBanner .banner-text,
+html[data-theme="emerald-esg"] #webgpuMemoryGuardBanner .banner-text,
+html[data-theme="royal-amethyst"] #webgpuMemoryGuardBanner {
+  color: #E0FBFC !important;
+}
+
+html.dark #webgpuMemoryGuardBanner .banner-strong,
+html[data-theme="sentinel-navy"] #webgpuMemoryGuardBanner .banner-strong,
+html[data-theme="obsidian-crimson"] #webgpuMemoryGuardBanner .banner-strong,
+html[data-theme="midnight-cyber"] #webgpuMemoryGuardBanner .banner-strong,
+html[data-theme="nordic-slate"] #webgpuMemoryGuardBanner .banner-strong,
+html[data-theme="emerald-esg"] #webgpuMemoryGuardBanner .banner-strong,
+html[data-theme="royal-amethyst"] #webgpuMemoryGuardBanner .banner-strong {
+  color: #00C4E7 !important;
+  font-weight: 800 !important;
+}
+
+html.dark #webgpuMemoryGuardBanner .kv-cache-badge,
+html[data-theme="sentinel-navy"] #webgpuMemoryGuardBanner .kv-cache-badge,
+html[data-theme="obsidian-crimson"] #webgpuMemoryGuardBanner .kv-cache-badge,
+html[data-theme="midnight-cyber"] #webgpuMemoryGuardBanner .kv-cache-badge,
+html[data-theme="nordic-slate"] #webgpuMemoryGuardBanner .kv-cache-badge,
+html[data-theme="emerald-esg"] #webgpuMemoryGuardBanner .kv-cache-badge,
+html[data-theme="royal-amethyst"] #webgpuMemoryGuardBanner .kv-cache-badge {
+  background-color: #003886 !important;
+  color: #00C4E7 !important;
+  border: 1px solid #00C4E7 !important;
+}
+
+/* Persistent Selection Highlight on Work Desk Notepad (Matches Native Mouse Selection) */
+.inline-selection-highlight,
+mark#activeInlineAiHighlight {
+  background-color: #b4d5fe !important;
+  color: inherit !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  font-style: inherit !important;
+  line-height: inherit !important;
+  text-decoration: inherit !important;
+  display: inline !important;
+  outline: none !important;
+  vertical-align: baseline !important;
+}
+
+.inline-selection-highlight *,
+mark#activeInlineAiHighlight * {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+html.dark .inline-selection-highlight,
+html.dark mark#activeInlineAiHighlight,
+html[data-theme="sentinel-navy"] .inline-selection-highlight,
+html[data-theme="sentinel-navy"] mark#activeInlineAiHighlight,
+html[data-theme="obsidian-crimson"] .inline-selection-highlight,
+html[data-theme="obsidian-crimson"] mark#activeInlineAiHighlight,
+html[data-theme="midnight-cyber"] .inline-selection-highlight,
+html[data-theme="midnight-cyber"] mark#activeInlineAiHighlight,
+html[data-theme="nordic-slate"] .inline-selection-highlight,
+html[data-theme="nordic-slate"] mark#activeInlineAiHighlight,
+html[data-theme="emerald-esg"] .inline-selection-highlight,
+html[data-theme="emerald-esg"] mark#activeInlineAiHighlight,
+html[data-theme="royal-amethyst"] .inline-selection-highlight,
+html[data-theme="royal-amethyst"] mark#activeInlineAiHighlight {
+  background-color: rgba(59, 130, 246, 0.45) !important;
+  color: inherit !important;
+}
+
+/* Native CSS Custom Highlight API Rules (Zero DOM Mutation) */
+::highlight(active-ai-selection) {
+  background-color: #b4d5fe !important;
+  color: inherit !important;
+}
+
+html.dark ::highlight(active-ai-selection),
+html[data-theme="sentinel-navy"] ::highlight(active-ai-selection),
+html[data-theme="obsidian-crimson"] ::highlight(active-ai-selection),
+html[data-theme="midnight-cyber"] ::highlight(active-ai-selection),
+html[data-theme="nordic-slate"] ::highlight(active-ai-selection),
+html[data-theme="emerald-esg"] ::highlight(active-ai-selection),
+html[data-theme="royal-amethyst"] ::highlight(active-ai-selection) {
+  background-color: rgba(59, 130, 246, 0.45) !important;
+  color: inherit !important;
+}
+
+
+
+
+
+
